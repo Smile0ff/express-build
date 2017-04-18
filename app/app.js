@@ -2,9 +2,11 @@ import path from "path";
 
 import express from "express";
 
+import helmet from "helmet";
 import favicon from "serve-favicon";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
+import session from "express-session";
 import bodyParser from "body-parser";
 import NamedRouter from "named-routes";
 
@@ -28,10 +30,21 @@ app.set('view engine', 'hbs');
 registerHBSHelpers(router);
 
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(helmet());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser("i18n"));
+app.use(session({
+    secret: "qweqaz123456",
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+        secure: true,
+        httpOnly: true,
+        expires: new Date(Date.now() + 60 * 60 * 1000)
+    }
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(i18n.init);

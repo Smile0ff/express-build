@@ -1,9 +1,9 @@
 import i18n from "i18n";
 
 function setLocale(locale){
-
+    
     return (req, res, next) => {
-        i18n.setLocale(locale);
+        res.cookie("i18n", locale);
         res.redirect("/");
     }
 }
@@ -11,14 +11,21 @@ function setLocale(locale){
 const home = (req, res, next) => {
 
     res.render('index', {
-        title: 'Express',
-        hello: i18n.__('hello')
+        title: 'home page'
     });
 };
 
-const test = (req, res, next) => {
-    res.render('test', {
-        title: 'Test page'
+const about = (req, res, next) => {
+
+    res.render('about', {
+        title: 'about page'
+    });
+};
+
+const cases = (req, res, next) => {
+
+    res.render('cases', {
+        title: 'cases page'
     });
 };
 
@@ -28,8 +35,8 @@ export default (router) => {
     router.get("/ru", "ru_locale", setLocale('ru'));
 
     router.get("/", "home", home);
-
-    router.get("/test/:id/:slug", "test.id.slug", test);
+    router.get("/about", "about", about);
+    router.get("/cases", "cases", cases);
 
     return router;
 }
