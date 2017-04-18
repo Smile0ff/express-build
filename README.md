@@ -1,2 +1,2 @@
-# express-build
+# Express Starter
 Starter pack for nodeJS apps
