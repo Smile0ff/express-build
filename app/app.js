@@ -1,22 +1,23 @@
-import path from "path";
+import path from 'path';
 
-import express from "express";
+import express from 'express';
 
-import helmet from "helmet";
-import favicon from "serve-favicon";
-import logger from "morgan";
-import cookieParser from "cookie-parser";
-import session from "express-session";
-import bodyParser from "body-parser";
-import NamedRouter from "named-routes";
+import NamedRouter from 'named-routes';
 
-import { config as dotEnvConfig } from "dotenv";
-import i18n from "@config/i18n"; 
-import registerHBSHelpers from "@viewHelpers/registerHBSHelpers";
-import routes from "@routes/";
-import { notFound, errorHandler } from "@routes/error";
+import configuredHelmet from '@config/middleware/helmet';
+//import configuredFavicon from '@config/middleware/favicon';
+import configuredLogger from '@config/middleware/logger';
+import configuredBodyParser from '@config/middleware/bodyParser';
+import configuredCookie from '@config/middleware/cookie';
+import configuredSession from '@config/middleware/session';
+import configuredStatic from '@config/middleware/static';
 
-dotEnvConfig();
+import localization from '@middleware/localization';
+
+import registerHandlebarsHelpers from '@viewHelpers/registerHandlebarsHelpers';
+
+import routes from '@routes';
+import { notFound, errorHandler } from '@routes/error';
 
 const app = express();
 const router = express.Router();
@@ -24,32 +25,28 @@ const namedRouter = new NamedRouter();
 
 namedRouter.extendExpress(router);
 
-app.set('views', path.join(__dirname, 'views'));
+const bodyParser = configuredBodyParser();
+
+app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-registerHBSHelpers(router);
+registerHandlebarsHelpers(router);
 
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(helmet());
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser("i18n"));
-app.use(session({
-    secret: "qweqaz123456",
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-        secure: true,
-        httpOnly: true,
-        expires: new Date(Date.now() + 60 * 60 * 1000)
-    }
-}));
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(favicon(path.resolve(__dirname, 'public/favicon.ico')));
+app.use(configuredHelmet());
+app.use(configuredLogger());
+app.use(bodyParser.json);
+app.use(bodyParser.urlencoded);
+app.use(configuredCookie());
+app.use(configuredSession());
+app.use(configuredStatic())
 
-app.use(i18n.init);
 
-app.use("/", routes(router));
+app.use(localization);
+
+
+
+app.use('/', routes(router));
 
 app.use(notFound);
 app.use(errorHandler);
