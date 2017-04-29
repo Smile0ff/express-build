@@ -1,52 +1,46 @@
 import path from 'path';
 import i18n from 'i18n';
 
-const locales = [
-    process.env.LOCALE_EN,
-    process.env.LOCALE_RU
-]
-
-
-function I18n(){
-    console.log(this)
+const i18nOptions = {
+    locales: [
+        process.env.LOCALE_EN,
+        process.env.LOCALE_RU
+    ],
+    defaultLocale: process.env.LOCALE_EN,
+    cookie: process.env.COOKIE_LOCALE,
+    directory: path.resolve(__dirname, '../locales')
 }
 
-I18n.prototype = {...i18n};
+class I18n{
 
-let test = new I18n();
+    constructor(){
+        Object.assign(this, i18n);
+    }
 
+    setup(){
+        this.configure(i18nOptions);
 
-// class I18n{
+        return this;
+    }
 
-//     constructor(){
+    initialize(req, res){
+        this.init(req, res);
 
-        
+        return this;
+    }
 
-//         console.log(this.constructor)
+    setLocaleWithCookie(res, locale){
+        res.cookie(process.env.COOKIE_LOCALE, locale);
 
-//         // this.configure({
-//         //     locales: locales,
-//         //     defaultLocale: process.env.LOCALE_EN,
-//         //     cookie: process.env.COOKIE_LOCALE,
-//         //     directory: path.resolve(__dirname, '../locales')
-//         // });    
-//     }
+        return this;
+    }
 
-//     initialize(req, res, next){
-//         return this.init(req, res, next);
-//     }
+    getLocaleWithCookie(req){
+        req.cookies[process.env.COOKIE_LOCALE];
 
-//     setLocaleWithCookie(res, locale){
-//         return res.cookie(process.env.COOKIE_LOCALE, locale)
-//     }
+        return this;
+    }
 
-//     getLocaleWithCookie(req){
-//         return req.cookies[process.env.COOKIE_LOCALE]
-//     }
+}
 
-
-// }
-
-const configure = () => I18n;
-
-export default configure;
+export default I18n;

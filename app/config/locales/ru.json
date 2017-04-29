@@ -1,1 +1,6 @@
-{}
+{
+	"hello": "hello",
+	"home": "home",
+	"about": "about",
+	"cases": "cases"
+}
