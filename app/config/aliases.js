@@ -9,5 +9,6 @@ moduleAlias.addAlias("@viewHelpers", resolve(__dirname, "../helpers/views"));
 moduleAlias.addAlias("@routes", resolve(__dirname, "../routes"));
 moduleAlias.addAlias("@views", resolve(__dirname, "../views"));
 moduleAlias.addAlias("@models", resolve(__dirname, "../models"));
+moduleAlias.addAlias("@services", resolve(__dirname, "../services"));
 
 export default moduleAlias;

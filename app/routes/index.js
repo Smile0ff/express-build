@@ -1,4 +1,4 @@
-import i18n from "i18n";
+import localization from '@config/middleware/localization';
 
 const home = (req, res, next) => {
 

@@ -12,14 +12,13 @@ import configuredCookie from '@config/middleware/cookie';
 import configuredSession from '@config/middleware/session';
 import configuredStatic from '@config/middleware/static';
 
+import configureTemplating from '@config/templating/hbs';
+
 import subdomain from '@middleware/subdomain';
 import localization from '@middleware/localization';
 
-import registerHandlebarsHelpers from '@viewHelpers/registerHandlebarsHelpers';
-import registerHandlebarsPartials from '@viewHelpers/registerHandlebarsPartials';
-
-import routes from '@routes';
 import { notFound, errorHandler } from '@routes/error';
+import routes from '@routes';
 
 const app = express();
 const router = express.Router();
@@ -29,11 +28,7 @@ namedRouter.extendExpress(router);
 
 const bodyParser = configuredBodyParser();
 
-registerHandlebarsHelpers(router);
-registerHandlebarsPartials();
-
-app.set('views', path.resolve(__dirname, 'views'));
-app.set('view engine', 'hbs');
+configureTemplating(app, router);
 
 //app.use(favicon(path.resolve(__dirname, 'public/favicon.ico')));
 app.use(configuredHelmet());
