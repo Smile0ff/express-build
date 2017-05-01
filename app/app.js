@@ -12,9 +12,11 @@ import configuredCookie from '@config/middleware/cookie';
 import configuredSession from '@config/middleware/session';
 import configuredStatic from '@config/middleware/static';
 
+import subdomain from '@middleware/subdomain';
 import localization from '@middleware/localization';
 
 import registerHandlebarsHelpers from '@viewHelpers/registerHandlebarsHelpers';
+import registerHandlebarsPartials from '@viewHelpers/registerHandlebarsPartials';
 
 import routes from '@routes';
 import { notFound, errorHandler } from '@routes/error';
@@ -27,10 +29,11 @@ namedRouter.extendExpress(router);
 
 const bodyParser = configuredBodyParser();
 
+registerHandlebarsHelpers(router);
+registerHandlebarsPartials();
+
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'hbs');
-
-registerHandlebarsHelpers(router);
 
 //app.use(favicon(path.resolve(__dirname, 'public/favicon.ico')));
 app.use(configuredHelmet());
@@ -41,10 +44,8 @@ app.use(configuredCookie());
 app.use(configuredSession());
 app.use(configuredStatic())
 
-
+app.use(subdomain);
 app.use(localization);
-
-
 
 app.use('/', routes(router));
 

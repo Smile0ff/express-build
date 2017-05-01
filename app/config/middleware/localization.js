@@ -8,37 +8,16 @@ const i18nOptions = {
     ],
     defaultLocale: process.env.LOCALE_EN,
     cookie: process.env.COOKIE_LOCALE,
-    directory: path.resolve(__dirname, '../locales')
+    directory: path.resolve(__dirname, '../../locales')
 }
 
 class I18n{
 
-    constructor(){
+    constructor(req, res){
         Object.assign(this, i18n);
-    }
 
-    setup(){
         this.configure(i18nOptions);
-
-        return this;
-    }
-
-    initialize(req, res){
         this.init(req, res);
-
-        return this;
-    }
-
-    setLocaleWithCookie(res, locale){
-        res.cookie(process.env.COOKIE_LOCALE, locale);
-
-        return this;
-    }
-
-    getLocaleWithCookie(req){
-        req.cookies[process.env.COOKIE_LOCALE];
-
-        return this;
     }
 
 }
