@@ -2,5 +2,6 @@
 	"hello": "hello",
     "home": "home",
 	"about": "about",
-	"cases": "cases"
+	"cases": "cases",
+    "viewButton": "view"
 }

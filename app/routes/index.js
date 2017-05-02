@@ -1,5 +1,3 @@
-import localization from '@config/middleware/localization';
-
 import Post from '@models/post'; 
 
 const home = (req, res, next) => {
@@ -16,27 +14,31 @@ const about = (req, res, next) => {
     });
 };
 
-const cases = (req, res, next) => {
+const cases = async (req, res, next) => {
+    let posts = await Post.localize(req, res).find({});
 
+    res.render('cases', {
+        title: 'cases page',
+        posts: posts
+    });
+};
 
-    Post
-        .localize(req, res)
-        .find()
-        .then((posts) => {
-            res.json(posts);
-        });
+const caseDetail = async (req, res, next) => {
+    let params = req.params;
+    let post = await Post.localize(req, res).findById({_id: params.id});
 
-
-    // res.render('cases', {
-    //     title: 'cases page'
-    // });
+    res.render('case', {
+        title: 'case page',
+        post: post
+    });
 };
 
 export default (router) => {
 
-    router.get("/", "home", home);
-    router.get("/about", "about", about);
-    router.get("/cases", "cases", cases);
+    router.get('/', 'home', home);
+    router.get('/about', 'about', about);
+    router.get('/cases', 'cases', cases);
+    router.get('/cases/:id', 'caseDetail', caseDetail);
 
     return router;
 }

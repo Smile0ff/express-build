@@ -3,7 +3,17 @@
 {{> localesPartial}}
 
 <ul>
-    <li><a href={{url "home"}}>{{__ "home"}}</a></li>
-    <li><a href={{url "about"}}>{{__ "about"}}</a></li>
-    <li><a href={{url "cases"}}>{{__ "cases"}}</a></li>
+    <li><a href={{url "home"}}>{{ __ "home" }}</a></li>
+    <li><a href={{url "about"}}>{{ __ "about" }}</a></li>
+    <li><a href={{url "cases"}}>{{ __ "cases" }}</a></li>
 </ul>
+
+
+
+{{#each posts}}
+    <article class="article">
+        <h2>{{ title }}</h2>
+        <p>{{ text }}</p>
+        <a href={{ url "caseDetail" id=_id }}>{{!--{{ __ "viewButton" }}--}}view</a>
+    </article>
+{{/each}}
