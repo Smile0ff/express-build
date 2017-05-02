@@ -1,5 +1,7 @@
 import localization from '@config/middleware/localization';
 
+import Post from '@models/post'; 
+
 const home = (req, res, next) => {
 
     res.render('index', {
@@ -16,9 +18,18 @@ const about = (req, res, next) => {
 
 const cases = (req, res, next) => {
 
-    res.render('cases', {
-        title: 'cases page'
-    });
+
+    Post
+        .localize(req, res)
+        .find()
+        .then((posts) => {
+            res.json(posts);
+        });
+
+
+    // res.render('cases', {
+    //     title: 'cases page'
+    // });
 };
 
 export default (router) => {
