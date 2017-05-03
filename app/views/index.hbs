@@ -1,9 +1,27 @@
-<h1>{{ title }}</h1>
+{{!-- css start --}}
+{{#extend 'css'}}
+    <link rel='stylesheet' href='/stylesheets/test.css'>
+{{/extend}}
+{{!-- css end --}}
 
-{{> localesPartial}}
+{{!-- layout start --}}
+{{#extend 'layout'}}
 
-<ul>
-    <li><a href={{url "home"}}>{{ __ "home" }}</a></li>
-    <li><a href={{url "about"}}>{{ __ "about" }}</a></li>
-    <li><a href={{url "cases"}}>{{ __ "cases" }}</a></li>
-</ul>
+    <h1>{{ title }}</h1>
+
+    {{> localesPartial}}
+
+    <ul>
+        <li><a href={{url "home"}}>{{ translate "home" }}</a></li>
+        <li><a href={{url "about"}}>{{ translate "about" }}</a></li>
+        <li><a href={{url "cases"}}>{{ translate "cases" }}</a></li>
+    </ul>
+
+{{/extend}}
+{{!-- layout end --}}
+
+{{!-- js start --}}
+{{#extend 'js'}}
+    
+{{/extend}}
+{{!-- js end --}}

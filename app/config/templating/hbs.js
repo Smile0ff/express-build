@@ -17,11 +17,20 @@ const partialPath = path.resolve(
 );
 
 function registerHelpers(app, router){
+    let blockHelper = helpers.blockHelper();
+
+    //order is important for this helper
+    hbs.registerHelper('extend', blockHelper.extendSection);
+    hbs.registerHelper('section', blockHelper.addToSection);
+    
+
     hbs.registerHelper('dump', helpers.dump);
     hbs.registerHelper('url', helpers.getUrl(router));
 
     app.use((req, res, next) => {
+        hbs.registerHelper('translate', helpers.getTranslation(res));
         hbs.registerHelper('absoluteUrl', helpers.getAbsoluteUrl(req));
+        
         next();
     });
 }

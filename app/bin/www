@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-require('dotenv').config();
+require('../config/runtime/dotenv');
 require('../config/runtime/aliases');
 
 var app = require('../app');

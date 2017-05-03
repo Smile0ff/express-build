@@ -25,6 +25,7 @@ const configure = () => {
 
     });
 
+    return mongoose.connection;
 }
 
 export default configure;

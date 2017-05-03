@@ -1,5 +1,31 @@
+const blockHelper = () => {
+
+    let sections = {};
+
+    function addToSection(name){
+        return sections[name] ? sections[name].join('\r\n') : null;
+    }
+
+    function extendSection(name, context){
+        sections[name] = [];
+        sections[name].push(context.fn(this));
+    }
+
+    return {
+        addToSection,
+        extendSection
+    }
+
+}
+
 const dump = (obj) => {
     console.log(obj)
+}
+
+const getTranslation = (res) => {
+    return (key) => {
+        return res.__(key);
+    }
 }
 
 const getUrl = (router) => {
@@ -22,7 +48,9 @@ const getAbsoluteUrl = (req) => {
 }
 
 export {
+    blockHelper,
     dump,
+    getTranslation,
     getUrl,
     getAbsoluteUrl
 }

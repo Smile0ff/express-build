@@ -1,13 +1,16 @@
-{{> localesPartial}}
+{{#extend 'layout'}}
+    <h1>{{ title }}</h1>
 
-<ul>
-    <li><a href={{url "home"}}>{{ __ "home" }}</a></li>
-    <li><a href={{url "about"}}>{{ __ "about" }}</a></li>
-    <li><a href={{url "cases"}}>{{ __ "cases" }}</a></li>
-</ul>
+    {{> localesPartial}}
 
-<article>
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.text }}</p>
-</article>
+    <ul>
+        <li><a href={{url "home"}}>{{ translate "home" }}</a></li>
+        <li><a href={{url "about"}}>{{ translate "about" }}</a></li>
+        <li><a href={{url "cases"}}>{{ translate "cases" }}</a></li>
+    </ul>
 
+    <article>
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.text }}</p>
+    </article>
+{{/extend}}

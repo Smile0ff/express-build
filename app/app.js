@@ -20,8 +20,8 @@ import configureTemplating from '@config/templating/hbs';
 import subdomain from '@middleware/subdomain';
 import localization from '@middleware/localization';
 
-import { notFound, errorHandler } from '@routes/error';
 import routes from '@routes';
+import { notFound, errorHandler } from '@routes/error';
 
 const app = express();
 const router = express.Router();
@@ -29,7 +29,7 @@ const namedRouter = new NamedRouter();
 
 namedRouter.extendExpress(router);
 
-databaseConnect();
+const db = databaseConnect();
 
 const bodyParser = configuredBodyParser();
 
@@ -42,7 +42,7 @@ app.use(configuredLogger());
 app.use(bodyParser.json);
 app.use(bodyParser.urlencoded);
 app.use(configuredCookie());
-app.use(configuredSession());
+app.use(configuredSession(db));
 app.use(configuredStatic())
 
 app.use(subdomain);
